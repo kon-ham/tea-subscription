@@ -1,6 +1,14 @@
 class Api::V1::SubscriptionsController < ApplicationController
     def index
-        render json: {  }, status: :ok
+        if Customer.find_by(email: params[:email]).nil?
+            render json: { errors: "No subscription exists or Customer does not exist" } and return
+        end
+        customer = Customer.find_by(email: params[:email])
+        if customer 
+            render json: SubscriptionsSerializer.new(customer.subscriptions)
+        else
+            render json: { errors: "No subscription exists or Customer does not exist" }
+        end
     end
 
     def create
