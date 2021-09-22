@@ -14,7 +14,7 @@ class Api::V1::SubscriptionsController < ApplicationController
     end
 
     def update
-        subscription = Subscription.find(params[:subscription_id])
+        subscription = Subscription.find(params[:id])
         subscription.status = params[:status]
         if subscription.save
             render json: { message: "Subscription has been updated" }, status: :ok

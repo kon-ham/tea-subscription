@@ -99,12 +99,10 @@ RSpec.describe "Subscriptions" do
             )
 
             body = {
-                subscription_id: subscription.id,
                 status: "0",
-                email: "bob@mcbobster.com"
             }
 
-            patch "/api/v1/subscriptions/:id", params: body
+            patch "/api/v1/subscriptions/#{subscription.id}", params: body
             subscription = JSON.parse(response.body, symbolize_names: true)
 
             expect(subscription[:message]).to eq("Subscription has been updated")
@@ -121,12 +119,10 @@ RSpec.describe "Subscriptions" do
             )
 
             body = {
-                subscription_id: subscription.id,
-                status: "asdf",
-                email: "bob@mcbobster.com"
+                status: "asdf"
             }
 
-            patch "/api/v1/subscriptions/:id", params: body
+            patch "/api/v1/subscriptions/#{subscription.id}", params: body
             subscription = JSON.parse(response.body, symbolize_names: true)
 
             expect(subscription[:errors]).to eq("Incorrect status code given")
