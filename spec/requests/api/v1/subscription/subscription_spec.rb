@@ -25,9 +25,19 @@ RSpec.describe "Subscriptions" do
         end
 
         it "PATCH can cancel a customer's subscription endpoint exists" do
+            subscription = @customer.subscriptions.create(
+                title: "entry",
+                price: "15.99",
+                status: "1",
+                frequency: "1"
+            )
+
             body = {
-                status: "0"
+                subscription_id: subscription.id,
+                status: "0",
+                email: "bob@mcbobster.com"
             }
+
             patch "/api/v1/subscriptions/:id", params: body
 
             expect(response).to be_successful
@@ -45,7 +55,7 @@ RSpec.describe "Subscriptions" do
         end
     end
 
-    describe 'Create a subscription' do
+    describe 'create a subscription' do
         it 'HAPPY PATH it can create a new subscription for a customer' do
             body = {
                 title: "entry",
@@ -74,6 +84,52 @@ RSpec.describe "Subscriptions" do
             subscription = JSON.parse(response.body, symbolize_names: true)
 
             expect(subscription[:errors]).to eq("Field is blank or incorrect data was given for fields")
+            expect(response).to_not be_successful
+            expect(response.status).to eq(400)
+        end
+    end
+
+    describe 'cancel a subscription' do
+        it 'HAPPY PATH can cancel a subscription for a customer' do
+            subscription = @customer.subscriptions.create(
+                title: "entry",
+                price: "15.99",
+                status: "1",
+                frequency: "1"
+            )
+
+            body = {
+                subscription_id: subscription.id,
+                status: "0",
+                email: "bob@mcbobster.com"
+            }
+
+            patch "/api/v1/subscriptions/:id", params: body
+            subscription = JSON.parse(response.body, symbolize_names: true)
+
+            expect(subscription[:message]).to eq("Subscription has been updated")
+            expect(response).to be_successful
+            expect(response.status).to eq(200)
+        end
+
+        it 'SAD PATH can cancel a subscription for a customer' do
+            subscription = @customer.subscriptions.create(
+                title: "entry",
+                price: "15.99",
+                status: "1",
+                frequency: "1"
+            )
+
+            body = {
+                subscription_id: subscription.id,
+                status: "asdf",
+                email: "bob@mcbobster.com"
+            }
+
+            patch "/api/v1/subscriptions/:id", params: body
+            subscription = JSON.parse(response.body, symbolize_names: true)
+
+            expect(subscription[:errors]).to eq("Incorrect status code given")
             expect(response).to_not be_successful
             expect(response.status).to eq(400)
         end

@@ -14,7 +14,13 @@ class Api::V1::SubscriptionsController < ApplicationController
     end
 
     def update
-        render json: {  }, status: :ok
+        subscription = Subscription.find(params[:subscription_id])
+        subscription.status = params[:status]
+        if subscription.save
+            render json: { message: "Subscription has been updated" }, status: :ok
+        else
+            render json: { errors: "Incorrect status code given" }, status: :bad_request
+        end
     end
 
     private
