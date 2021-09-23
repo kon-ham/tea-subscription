@@ -1,5 +1,5 @@
 # Tea Subscription Service
-Take-home challenge. Get API endpoints for creating a customer's tea subscription, cancelling a tea subscription, and getting all subscriptions by customer ID.
+Take-home challenge. Get API endpoints for creating a customer's tea subscription, cancelling a tea subscription, and getting all subscriptions (cancelled or not) by customer ID.
 
 ## System Dependencies
 
@@ -26,42 +26,42 @@ Take-home challenge. Get API endpoints for creating a customer's tea subscriptio
 ```
 ```
 {
-"message": "Subscription has been created"
+	"message": "Subscription has been created"
 }
 ```
 * **Sad Path** - Create Subscription: `POST /api/v1/subscriptions`
 ```
 {
-"errors": "Field is blank or incorrect data was given for fields"
+	"errors": "Field is blank or incorrect data was given for fields"
 }
 ```
 * **Happy Path** - Cancel Subscription: `PATCH /api/v1/subscriptions/{:subscription_id}`
 ```
 {
-"status": "1"
+	"status": "1"
 }
 ```
 ```
 {
-"message": "Subscription has been updated"
+	"message": "Subscription has been updated"
 }
 ```
 * **Sad Path** - Cancel Subscription: `PATCH /api/v1/subscriptions/{:subscription_id}`
 ```
 {
-"status": "roflcopter"
+	"status": "roflcopter"
 }
 ```
 ```
 {
-"errors": "Incorrect status code given"
+	"errors": "Incorrect status code given"
 }
 ```
 
 * **Happy Path** - Get Subscriptions: `GET /api/v1/subscriptions`
 ```
 {
-"email": "bob@mcbobster.com"
+	"email": "bob@mcbobster.com"
 }
 ```
 ```
@@ -98,6 +98,17 @@ Take-home challenge. Get API endpoints for creating a customer's tea subscriptio
 			}
 		}
 	]
+}
+```
+* **Sad Path** - Get Subscriptions: `GET /api/v1/subscriptions`
+```
+{
+	"email": "bob@mcbobster.com"
+}
+```
+```
+{
+    "errors": "No subscription exists or Customer does not exist"
 }
 ```
 ## Testing
