@@ -10,7 +10,11 @@ Take-home challenge. Get API endpoints for creating a customer's tea subscriptio
 
 1. Fork and clone this repo
 2. Bundle install
-6. `rails db:{create,migrate}`
+3. `rails db:{create,migrate}`
+
+## Schema
+
+![database schema](https://github.com/kon-ham/tea-subscription/blob/main/Screen%20Shot%202021-09-23%20at%203.24.37%20PM.png?raw=true)
 
 ## Endpoints
 
