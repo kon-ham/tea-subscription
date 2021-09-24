@@ -129,7 +129,7 @@ RSpec.describe "Subscriptions" do
             expect(subscription[:data].first[:attributes]).to have_key(:frequency)
         end
 
-        it 'SAD PATH can get all subscriptions by customer' do
+        it 'SAD PATH can get all subscriptions by customer (no email exists)' do
             body = {
                 email: "asdf@asdf.com"
             }
